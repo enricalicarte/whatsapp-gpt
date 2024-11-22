@@ -22,8 +22,8 @@ function clearChatHistory() {
     currentConversation = [];  // Reinicia la conversación actual
 }
 
-// Evento del botón de búsqueda
-searchButton.addEventListener("click", () => {
+// Función para enviar un mensaje
+function sendMessage() {
     const userMessage = searchInput.value.trim();
     if (!userMessage) return;
 
@@ -36,6 +36,17 @@ searchButton.addEventListener("click", () => {
 
     // Limpiar el campo de entrada
     searchInput.value = "";
+}
+
+// Evento del botón "Enviar"
+searchButton.addEventListener("click", sendMessage);
+
+// Evento para enviar mensaje con la tecla "Enter"
+searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+    }
 });
 
 // Evento del botón "Nueva Conversación"
