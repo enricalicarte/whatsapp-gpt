@@ -5,6 +5,7 @@ const searchButton = document.getElementById("search-button");
 const newConversationButton = document.getElementById("new-conversation-button");
 
 let currentConversation = []; // Almacena mensajes de la conversación actual
+let conversations = []; // Almacena el historial de todas las conversaciones
 
 // Función para añadir un mensaje al historial del chat
 function addMessageToChat(sender, message) {
@@ -16,10 +17,14 @@ function addMessageToChat(sender, message) {
     currentConversation.push({ sender, message }); // Guardar mensaje en la conversación actual
 }
 
-// Función para limpiar el historial del chat
+// Función para limpiar el historial del chat y guardar la conversación actual
 function clearChatHistory() {
+    if (currentConversation.length > 0) {
+        conversations.push([...currentConversation]); // Guardar la conversación actual
+    }
     chatHistory.innerHTML = ""; // Borra el historial del chat
     currentConversation = [];  // Reinicia la conversación actual
+    console.log("Historial de conversaciones:", conversations); // Mostrar en consola para pruebas
 }
 
 // Función para manejar clics en las marcas
