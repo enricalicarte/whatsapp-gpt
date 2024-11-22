@@ -5,7 +5,12 @@ const searchButton = document.getElementById("search-button");
 const newConversationButton = document.getElementById("new-conversation-button");
 
 let currentConversation = []; // Almacena mensajes de la conversación actual
-let conversations = []; // Almacena el historial de todas las conversaciones
+let conversationsByBrand = { // Objeto para almacenar conversaciones por marca
+    Cumlaude: [],
+    Rilastil: [],
+    Sensilis: []
+};
+let activeBrand = null; // Marca activa seleccionada
 
 // Función para añadir un mensaje al historial del chat
 function addMessageToChat(sender, message) {
@@ -19,12 +24,13 @@ function addMessageToChat(sender, message) {
 
 // Función para limpiar el historial del chat y guardar la conversación actual
 function clearChatHistory() {
-    if (currentConversation.length > 0) {
-        conversations.push([...currentConversation]); // Guardar la conversación actual
+    if (currentConversation.length > 0 && activeBrand) {
+        // Guardar la conversación actual bajo la marca activa
+        conversationsByBrand[activeBrand].push([...currentConversation]);
     }
     chatHistory.innerHTML = ""; // Borra el historial del chat
     currentConversation = [];  // Reinicia la conversación actual
-    console.log("Historial de conversaciones:", conversations); // Mostrar en consola para pruebas
+    console.log("Historial de conversaciones:", conversationsByBrand); // Mostrar en consola para pruebas
 }
 
 // Función para manejar clics en las marcas
@@ -32,14 +38,20 @@ function selectBrand(event) {
     brandItems.forEach((item) => item.classList.remove("selected"));
     const selectedItem = event.target;
     selectedItem.classList.add("selected");
+    activeBrand = selectedItem.dataset.brand; // Establecer la marca activa
     clearChatHistory();
-    addMessageToChat("bot", `Has seleccionado la marca: ${selectedItem.dataset.brand}`);
+    addMessageToChat("bot", `Has seleccionado la marca: ${activeBrand}`);
 }
 
 // Evento del botón "Enviar"
 searchButton.addEventListener("click", () => {
     const userMessage = searchInput.value.trim();
-    if (!userMessage) return;
+    if (!userMessage || !activeBrand) {
+        if (!activeBrand) {
+            alert("Por favor, selecciona una marca antes de comenzar la conversación.");
+        }
+        return;
+    }
 
     addMessageToChat("user", userMessage);
 
