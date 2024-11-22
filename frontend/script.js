@@ -4,7 +4,7 @@ async function sendMessage() {
 
     // Añadir el mensaje del usuario al chat-box
     const chatBox = document.getElementById("chat-box");
-    chatBox.innerHTML += `<div><strong>Tú:</strong> ${userMessage}</div>`;
+    chatBox.innerHTML += `<div class="chat-message user"><div>${userMessage}</div></div>`;
 
     // Enviar el mensaje al backend
     const response = await fetch('https://tu-backend-url/whatsapp', {
@@ -19,7 +19,10 @@ async function sendMessage() {
     const assistantReply = data.reply;
 
     // Añadir la respuesta del asistente al chat-box
-    chatBox.innerHTML += `<div><strong>WhatsApp-GPT:</strong> ${assistantReply}</div>`;
+    chatBox.innerHTML += `<div class="chat-message assistant"><div>${assistantReply}</div></div>`;
+
+    // Desplazar hacia abajo el chat-box para mostrar el último mensaje
+    chatBox.scrollTop = chatBox.scrollHeight;
 
     // Limpiar el campo de entrada
     document.getElementById("user-input").value = "";
