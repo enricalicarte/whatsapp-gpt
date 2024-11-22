@@ -1,4 +1,4 @@
-const conversationList = document.getElementById("conversation-list");
+const brandItems = document.querySelectorAll(".brand");
 const chatHistory = document.getElementById("chat-history");
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
@@ -22,32 +22,40 @@ function clearChatHistory() {
     currentConversation = [];  // Reinicia la conversación actual
 }
 
-// Función para enviar un mensaje
-function sendMessage() {
-    const userMessage = searchInput.value.trim();
-    if (!userMessage) return;
-
-    // Mostrar el mensaje del usuario en el historial
-    addMessageToChat("user", userMessage);
-
-    // Simular una respuesta del chatbot
-    const botReply = `Respuesta a: "${userMessage}"`;
-    setTimeout(() => addMessageToChat("bot", botReply), 1000);
-
-    // Limpiar el campo de entrada
-    searchInput.value = "";
+// Función para manejar clics en las marcas
+function selectBrand(event) {
+    brandItems.forEach((item) => item.classList.remove("selected"));
+    const selectedItem = event.target;
+    selectedItem.classList.add("selected");
+    clearChatHistory();
+    addMessageToChat("bot", `Has seleccionado la marca: ${selectedItem.dataset.brand}`);
 }
 
 // Evento del botón "Enviar"
-searchButton.addEventListener("click", sendMessage);
+searchButton.addEventListener("click", () => {
+    const userMessage = searchInput.value.trim();
+    if (!userMessage) return;
+
+    addMessageToChat("user", userMessage);
+
+    const botReply = `Respuesta a: "${userMessage}"`;
+    setTimeout(() => addMessageToChat("bot", botReply), 1000);
+
+    searchInput.value = "";
+});
 
 // Evento para enviar mensaje con la tecla "Enter"
 searchInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
         event.preventDefault();
-        sendMessage();
+        searchButton.click();
     }
 });
 
 // Evento del botón "Nueva Conversación"
 newConversationButton.addEventListener("click", clearChatHistory);
+
+// Añadir evento a cada marca
+brandItems.forEach((item) => {
+    item.addEventListener("click", selectBrand);
+});
