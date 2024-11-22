@@ -3,14 +3,16 @@ const chatHistory = document.getElementById("chat-history");
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const newConversationButton = document.getElementById("new-conversation-button");
+const menuToggle = document.getElementById("menu-toggle");
+const sidebar = document.getElementById("sidebar");
 
-let currentConversation = []; // Almacena mensajes de la conversación actual
-let conversationsByBrand = { // Objeto para almacenar conversaciones por marca
+let currentConversation = [];
+let conversationsByBrand = {
     Cumlaude: [],
     Rilastil: [],
     Sensilis: []
 };
-let activeBrand = null; // Marca activa seleccionada
+let activeBrand = null;
 
 // Función para añadir un mensaje al historial del chat
 function addMessageToChat(sender, message) {
@@ -19,18 +21,16 @@ function addMessageToChat(sender, message) {
     messageDiv.textContent = message;
     chatHistory.appendChild(messageDiv);
     chatHistory.scrollTop = chatHistory.scrollHeight;
-    currentConversation.push({ sender, message }); // Guardar mensaje en la conversación actual
+    currentConversation.push({ sender, message });
 }
 
 // Función para limpiar el historial del chat y guardar la conversación actual
 function clearChatHistory() {
     if (currentConversation.length > 0 && activeBrand) {
-        // Guardar la conversación actual bajo la marca activa
         conversationsByBrand[activeBrand].push([...currentConversation]);
     }
-    chatHistory.innerHTML = ""; // Borra el historial del chat
-    currentConversation = [];  // Reinicia la conversación actual
-    console.log("Historial de conversaciones:", conversationsByBrand); // Mostrar en consola para pruebas
+    chatHistory.innerHTML = "";
+    currentConversation = [];
 }
 
 // Función para manejar clics en las marcas
@@ -38,9 +38,14 @@ function selectBrand(event) {
     brandItems.forEach((item) => item.classList.remove("selected"));
     const selectedItem = event.target;
     selectedItem.classList.add("selected");
-    activeBrand = selectedItem.dataset.brand; // Establecer la marca activa
+    activeBrand = selectedItem.dataset.brand;
     clearChatHistory();
     addMessageToChat("bot", `Has seleccionado la marca: ${activeBrand}`);
+}
+
+// Función para alternar el menú hamburguesa
+function toggleMenu() {
+    sidebar.classList.toggle("visible");
 }
 
 // Evento del botón "Enviar"
@@ -76,3 +81,6 @@ newConversationButton.addEventListener("click", clearChatHistory);
 brandItems.forEach((item) => {
     item.addEventListener("click", selectBrand);
 });
+
+// Evento del botón de menú hamburguesa
+menuToggle.addEventListener("click", toggleMenu);
