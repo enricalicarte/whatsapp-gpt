@@ -16,23 +16,6 @@ body, html {
     height: 100vh;
     background-color: #ffffff;
     overflow: hidden;
-    position: relative;
-}
-
-/* Botón menú hamburguesa */
-#menu-toggle {
-    display: none;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: #3f51b5;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    font-size: 1.5rem;
-    z-index: 1000;
-    cursor: pointer;
 }
 
 /* Sidebar */
@@ -42,7 +25,6 @@ body, html {
     padding: 2rem 1rem;
     border-right: 1px solid #ddd;
     box-sizing: border-box;
-    transition: transform 0.3s ease-in-out;
 }
 
 #sidebar h2 {
@@ -53,13 +35,13 @@ body, html {
     margin-bottom: 1rem;
 }
 
-#conversation-list {
+#sidebar ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-#conversation-list li {
+#sidebar ul li {
     margin: 1rem 0;
     padding: 0.8rem;
     background-color: #ffffff;
@@ -73,7 +55,7 @@ body, html {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#conversation-list li:hover {
+#sidebar ul li:hover {
     background-color: #3f51b5;
     color: #ffffff;
 }
@@ -166,4 +148,21 @@ body, html {
     align-self: flex-start;
     background-color: #e8f5e9;
     color: #388e3c;
+}
+
+/* Opciones de marca */
+.brand-option {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #e0e0e0;
+    color: #333;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.brand-option:hover {
+    background-color: #3f51b5;
+    color: #ffffff;
 }

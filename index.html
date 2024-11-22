@@ -8,27 +8,25 @@
 </head>
 <body>
     <div id="container">
-        <!-- Botón de menú hamburguesa -->
-        <button id="menu-toggle" aria-label="Abrir menú">
-            ☰
-        </button>
         <aside id="sidebar">
-            <h2>Historial</h2>
+            <h2>Conversaciones</h2>
             <nav>
-                <ul id="conversation-list">
-                    <!-- Conversaciones antiguas se agregarán aquí -->
+                <ul>
+                    <li class="brand-conversations" data-brand="Cumlaude">Cumlaude</li>
+                    <li class="brand-conversations" data-brand="Rilastil">Rilastil</li>
+                    <li class="brand-conversations" data-brand="Sensilis">Sensilis</li>
                 </ul>
             </nav>
         </aside>
         <main id="main-content">
             <h1>Chat Vinculado a Marcas</h1>
+            <div id="search-box">
+                <input type="text" id="search-input" placeholder="Escribe tu mensaje aquí..." />
+                <button id="search-button">➔</button>
+                <button id="new-conversation-button">🔄</button>
+            </div>
             <div id="chat-history">
                 <!-- Historial de chat actual -->
-            </div>
-            <div id="search-box">
-                <input type="text" id="search-input" placeholder="Escribe tu mensaje aquí..." disabled />
-                <button id="search-button" disabled>➔</button>
-                <button id="new-conversation-button">🔄</button>
             </div>
         </main>
     </div>

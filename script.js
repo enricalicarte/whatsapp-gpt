@@ -1,10 +1,8 @@
-const menuToggle = document.getElementById("menu-toggle");
-const sidebar = document.getElementById("sidebar");
+const brandConversations = document.querySelectorAll(".brand-conversations");
 const chatHistory = document.getElementById("chat-history");
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const newConversationButton = document.getElementById("new-conversation-button");
-const conversationList = document.getElementById("conversation-list");
 
 let currentConversation = [];
 let conversationsByBrand = {
@@ -14,90 +12,37 @@ let conversationsByBrand = {
 };
 let activeBrand = null;
 
-// Mostrar mensaje de bienvenida con opciones
+// Función para mostrar el mensaje de bienvenida
 function showWelcomeMessage() {
-    addMessageToChat(
-        "bot",
-        `
-        Bienvenido al Chat de Marcas. Por favor, selecciona una marca para continuar:
-        <button class="brand-button" data-brand="Cumlaude">Cumlaude</button>
-        <button class="brand-button" data-brand="Rilastil">Rilastil</button>
-        <button class="brand-button" data-brand="Sensilis">Sensilis</button>
-        `,
-        true
-    );
+    chatHistory.innerHTML = ""; // Limpiar historial
+    const welcomeMessage = document.createElement("div");
+    welcomeMessage.classList.add("message", "bot");
+    welcomeMessage.innerHTML = `
+        Bienvenido, selecciona una marca para comenzar:
+        <span class="brand-option" data-brand="Cumlaude">Cumlaude</span>
+        <span class="brand-option" data-brand="Rilastil">Rilastil</span>
+        <span class="brand-option" data-brand="Sensilis">Sensilis</span>
+    `;
+    chatHistory.appendChild(welcomeMessage);
 
-    const brandButtons = document.querySelectorAll(".brand-button");
-    brandButtons.forEach((button) => {
-        button.addEventListener("click", (event) => {
-            const brand = event.target.dataset.brand;
-            selectBrand(brand);
+    // Añadir eventos a las opciones de marca
+    document.querySelectorAll(".brand-option").forEach(option => {
+        option.addEventListener("click", (event) => {
+            activeBrand = event.target.dataset.brand;
+            addMessageToChat("bot", `Has seleccionado la marca: ${activeBrand}`);
         });
     });
 }
 
-// Función para seleccionar una marca
-function selectBrand(brand) {
-    activeBrand = brand;
-    addMessageToChat("bot", `Has seleccionado la marca: ${brand}`);
-    enableChat();
-}
-
-// Habilitar el chat después de seleccionar una marca
-function enableChat() {
-    searchInput.disabled = false;
-    searchButton.disabled = false;
-}
-
-// Añadir un mensaje al historial del chat
-function addMessageToChat(sender, message, isButton = false) {
+// Función para añadir un mensaje al historial del chat
+function addMessageToChat(sender, message) {
     const messageDiv = document.createElement("div");
     messageDiv.classList.add("message", sender);
-    if (isButton) {
-        messageDiv.innerHTML = message;
-    } else {
-        messageDiv.textContent = message;
-    }
+    messageDiv.textContent = message;
     chatHistory.appendChild(messageDiv);
     chatHistory.scrollTop = chatHistory.scrollHeight;
+    currentConversation.push({ sender, message });
 }
 
-// Guardar la conversación actual
-function saveConversation() {
-    if (currentConversation.length > 0 && activeBrand) {
-        conversationsByBrand[activeBrand].push([...currentConversation]);
-        const li = document.createElement("li");
-        li.textContent = `Conversación ${conversationsByBrand[activeBrand].length} (${activeBrand})`;
-        conversationList.appendChild(li);
-        li.addEventListener("click", () => {
-            alert(`Cargando conversación: ${li.textContent}`);
-        });
-    }
-    currentConversation = [];
-}
-
-// Limpiar el historial del chat
-function clearChatHistory() {
-    saveConversation();
-    chatHistory.innerHTML = "";
-    activeBrand = null;
-    searchInput.disabled = true;
-    searchButton.disabled = true;
-    showWelcomeMessage();
-}
-
-// Evento de enviar mensaje
-searchButton.addEventListener("click", () => {
-    const userMessage = searchInput.value.trim();
-    if (!userMessage || !activeBrand) return;
-    addMessageToChat("user", userMessage);
-    const botReply = `Respuesta a: "${userMessage}"`;
-    setTimeout(() => addMessageToChat("bot", botReply), 1000);
-    searchInput.value = "";
-});
-
-// Evento de nueva conversación
-newConversationButton.addEventListener("click", clearChatHistory);
-
-// Iniciar con el mensaje de bienvenida
-document.addEventListener("DOMContentLoaded", showWelcomeMessage);
+// Mostrar el mensaje de bienvenida al cargar
+showWelcomeMessage();
