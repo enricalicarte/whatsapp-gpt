@@ -18,6 +18,22 @@ body, html {
     overflow: hidden;
 }
 
+/* Botón menú hamburguesa */
+#menu-toggle {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    z-index: 1000;
+    cursor: pointer;
+}
+
 /* Sidebar */
 #sidebar {
     width: 20%;
@@ -25,6 +41,7 @@ body, html {
     padding: 2rem 1rem;
     border-right: 1px solid #ddd;
     box-sizing: border-box;
+    transition: transform 0.3s ease-in-out;
 }
 
 #sidebar h2 {
@@ -41,23 +58,46 @@ body, html {
     margin: 0;
 }
 
-#sidebar ul li {
-    margin: 1rem 0;
-    padding: 0.8rem;
-    background-color: #ffffff;
-    border-radius: 5px;
+/* Historial de marcas y conversaciones */
+.brand-header {
+    font-size: 1.2rem;
+    font-weight: bold;
     color: #333;
     cursor: pointer;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: bold;
+    margin: 0.5rem 0;
+    background-color: #f4f4f4;
+    padding: 0.8rem;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#sidebar ul li:hover {
+.brand-header:hover {
     background-color: #3f51b5;
     color: #ffffff;
+}
+
+.conversation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+.conversation-list.visible {
+    display: block;
+}
+
+.conversation-list li {
+    font-size: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+
+.conversation-list li:hover {
+    background-color: #f0f0f0;
 }
 
 /* Main Content */

@@ -8,13 +8,26 @@
 </head>
 <body>
     <div id="container">
+        <!-- Botón de menú hamburguesa -->
+        <button id="menu-toggle" aria-label="Abrir menú">
+            ☰
+        </button>
         <aside id="sidebar">
-            <h2>Conversaciones</h2>
+            <h2>Historial</h2>
             <nav>
-                <ul>
-                    <li class="brand-conversations" data-brand="Cumlaude">Cumlaude</li>
-                    <li class="brand-conversations" data-brand="Rilastil">Rilastil</li>
-                    <li class="brand-conversations" data-brand="Sensilis">Sensilis</li>
+                <ul id="brand-list">
+                    <li>
+                        <div class="brand-header" data-brand="Cumlaude">Cumlaude</div>
+                        <ul class="conversation-list hidden" id="Cumlaude-list"></ul>
+                    </li>
+                    <li>
+                        <div class="brand-header" data-brand="Rilastil">Rilastil</div>
+                        <ul class="conversation-list hidden" id="Rilastil-list"></ul>
+                    </li>
+                    <li>
+                        <div class="brand-header" data-brand="Sensilis">Sensilis</div>
+                        <ul class="conversation-list hidden" id="Sensilis-list"></ul>
+                    </li>
                 </ul>
             </nav>
         </aside>
