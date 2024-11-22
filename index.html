@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="main-container">
+    <div id="container">
         <aside id="sidebar">
             <h2>Inicio</h2>
             <nav>
@@ -18,23 +18,21 @@
                 </ul>
             </nav>
         </aside>
-        <section id="content">
-            <header>
-                <h1>Busca como nunca antes</h1>
-            </header>
-            <div id="search-container">
+        <main id="main-content">
+            <h1>Busca como nunca antes</h1>
+            <div id="search-box">
                 <input type="text" id="search-input" placeholder="Pregunta lo que sea..." />
                 <button id="search-button">➔</button>
             </div>
-            <div id="options-container">
-                <button>Enfoque</button>
-                <button>Adjuntar</button>
-                <label>
-                    <span>Pro</span>
+            <div id="options">
+                <button class="option">Enfoque</button>
+                <button class="option">Adjuntar</button>
+                <label id="toggle-pro">
+                    Pro
                     <input type="checkbox" />
                 </label>
             </div>
-        </section>
+        </main>
     </div>
 </body>
 </html>
