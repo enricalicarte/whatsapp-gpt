@@ -16,23 +16,10 @@ function addMessageToChat(sender, message) {
     currentConversation.push({ sender, message }); // Guardar mensaje en la conversación actual
 }
 
-// Función para guardar la conversación en la biblioteca
-function saveConversation() {
-    if (currentConversation.length === 0) return;
-
-    // Crear un resumen con el primer mensaje del usuario
-    const firstUserMessage = currentConversation.find(msg => msg.sender === "user")?.message || "Sin título";
-    const conversationItem = document.createElement("li");
-    conversationItem.textContent = firstUserMessage;
-    conversationItem.addEventListener("click", () => {
-        alert(`Resumen: ${firstUserMessage}`);
-    });
-
-    conversationList.appendChild(conversationItem);
-
-    // Reiniciar la conversación actual
-    currentConversation = [];
-    chatHistory.innerHTML = ""; // Limpiar el historial visual
+// Función para limpiar el historial del chat
+function clearChatHistory() {
+    chatHistory.innerHTML = ""; // Borra el historial del chat
+    currentConversation = [];  // Reinicia la conversación actual
 }
 
 // Evento del botón de búsqueda
@@ -52,4 +39,4 @@ searchButton.addEventListener("click", () => {
 });
 
 // Evento del botón "Nueva Conversación"
-newConversationButton.addEventListener("click", saveConversation);
+newConversationButton.addEventListener("click", clearChatHistory);
