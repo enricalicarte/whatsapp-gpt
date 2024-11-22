@@ -1,10 +1,10 @@
-const brandItems = document.querySelectorAll(".brand");
+const menuToggle = document.getElementById("menu-toggle");
+const sidebar = document.getElementById("sidebar");
 const chatHistory = document.getElementById("chat-history");
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const newConversationButton = document.getElementById("new-conversation-button");
-const menuToggle = document.getElementById("menu-toggle");
-const sidebar = document.getElementById("sidebar");
+const conversationList = document.getElementById("conversation-list");
 
 let currentConversation = [];
 let conversationsByBrand = {
@@ -14,73 +14,90 @@ let conversationsByBrand = {
 };
 let activeBrand = null;
 
-// Función para añadir un mensaje al historial del chat
-function addMessageToChat(sender, message) {
-    const messageDiv = document.createElement("div");
-    messageDiv.classList.add("message", sender);
-    messageDiv.textContent = message;
-    chatHistory.appendChild(messageDiv);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-    currentConversation.push({ sender, message });
+// Mostrar mensaje de bienvenida con opciones
+function showWelcomeMessage() {
+    addMessageToChat(
+        "bot",
+        `
+        Bienvenido al Chat de Marcas. Por favor, selecciona una marca para continuar:
+        <button class="brand-button" data-brand="Cumlaude">Cumlaude</button>
+        <button class="brand-button" data-brand="Rilastil">Rilastil</button>
+        <button class="brand-button" data-brand="Sensilis">Sensilis</button>
+        `,
+        true
+    );
+
+    const brandButtons = document.querySelectorAll(".brand-button");
+    brandButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const brand = event.target.dataset.brand;
+            selectBrand(brand);
+        });
+    });
 }
 
-// Función para limpiar el historial del chat y guardar la conversación actual
-function clearChatHistory() {
+// Función para seleccionar una marca
+function selectBrand(brand) {
+    activeBrand = brand;
+    addMessageToChat("bot", `Has seleccionado la marca: ${brand}`);
+    enableChat();
+}
+
+// Habilitar el chat después de seleccionar una marca
+function enableChat() {
+    searchInput.disabled = false;
+    searchButton.disabled = false;
+}
+
+// Añadir un mensaje al historial del chat
+function addMessageToChat(sender, message, isButton = false) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", sender);
+    if (isButton) {
+        messageDiv.innerHTML = message;
+    } else {
+        messageDiv.textContent = message;
+    }
+    chatHistory.appendChild(messageDiv);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+}
+
+// Guardar la conversación actual
+function saveConversation() {
     if (currentConversation.length > 0 && activeBrand) {
         conversationsByBrand[activeBrand].push([...currentConversation]);
+        const li = document.createElement("li");
+        li.textContent = `Conversación ${conversationsByBrand[activeBrand].length} (${activeBrand})`;
+        conversationList.appendChild(li);
+        li.addEventListener("click", () => {
+            alert(`Cargando conversación: ${li.textContent}`);
+        });
     }
-    chatHistory.innerHTML = "";
     currentConversation = [];
 }
 
-// Función para manejar clics en las marcas
-function selectBrand(event) {
-    brandItems.forEach((item) => item.classList.remove("selected"));
-    const selectedItem = event.target;
-    selectedItem.classList.add("selected");
-    activeBrand = selectedItem.dataset.brand;
-    clearChatHistory();
-    addMessageToChat("bot", `Has seleccionado la marca: ${activeBrand}`);
+// Limpiar el historial del chat
+function clearChatHistory() {
+    saveConversation();
+    chatHistory.innerHTML = "";
+    activeBrand = null;
+    searchInput.disabled = true;
+    searchButton.disabled = true;
+    showWelcomeMessage();
 }
 
-// Función para alternar el menú hamburguesa
-function toggleMenu() {
-    sidebar.classList.toggle("visible");
-}
-
-// Evento del botón "Enviar"
+// Evento de enviar mensaje
 searchButton.addEventListener("click", () => {
     const userMessage = searchInput.value.trim();
-    if (!userMessage || !activeBrand) {
-        if (!activeBrand) {
-            alert("Por favor, selecciona una marca antes de comenzar la conversación.");
-        }
-        return;
-    }
-
+    if (!userMessage || !activeBrand) return;
     addMessageToChat("user", userMessage);
-
     const botReply = `Respuesta a: "${userMessage}"`;
     setTimeout(() => addMessageToChat("bot", botReply), 1000);
-
     searchInput.value = "";
 });
 
-// Evento para enviar mensaje con la tecla "Enter"
-searchInput.addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        searchButton.click();
-    }
-});
-
-// Evento del botón "Nueva Conversación"
+// Evento de nueva conversación
 newConversationButton.addEventListener("click", clearChatHistory);
 
-// Añadir evento a cada marca
-brandItems.forEach((item) => {
-    item.addEventListener("click", selectBrand);
-});
-
-// Evento del botón de menú hamburguesa
-menuToggle.addEventListener("click", toggleMenu);
+// Iniciar con el mensaje de bienvenida
+document.addEventListener("DOMContentLoaded", showWelcomeMessage);

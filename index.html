@@ -13,24 +13,22 @@
             ☰
         </button>
         <aside id="sidebar">
-            <h2>Marcas</h2>
+            <h2>Historial</h2>
             <nav>
-                <ul>
-                    <li class="brand" data-brand="Cumlaude">Cumlaude</li>
-                    <li class="brand" data-brand="Rilastil">Rilastil</li>
-                    <li class="brand" data-brand="Sensilis">Sensilis</li>
+                <ul id="conversation-list">
+                    <!-- Conversaciones antiguas se agregarán aquí -->
                 </ul>
             </nav>
         </aside>
         <main id="main-content">
             <h1>Chat Vinculado a Marcas</h1>
-            <div id="search-box">
-                <input type="text" id="search-input" placeholder="Escribe tu mensaje aquí..." />
-                <button id="search-button">➔</button>
-                <button id="new-conversation-button">🔄</button>
-            </div>
             <div id="chat-history">
                 <!-- Historial de chat actual -->
+            </div>
+            <div id="search-box">
+                <input type="text" id="search-input" placeholder="Escribe tu mensaje aquí..." disabled />
+                <button id="search-button" disabled>➔</button>
+                <button id="new-conversation-button">🔄</button>
             </div>
         </main>
     </div>

@@ -45,13 +45,21 @@ body, html {
     transition: transform 0.3s ease-in-out;
 }
 
-#sidebar ul {
+#sidebar h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+#conversation-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-#sidebar ul li {
+#conversation-list li {
     margin: 1rem 0;
     padding: 0.8rem;
     background-color: #ffffff;
@@ -65,19 +73,9 @@ body, html {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#sidebar ul li:hover {
+#conversation-list li:hover {
     background-color: #3f51b5;
     color: #ffffff;
-}
-
-#sidebar ul li.selected {
-    background-color: #3f51b5;
-    color: #ffffff;
-}
-
-/* Sidebar oculto en dispositivos móviles */
-#sidebar.hidden {
-    transform: translateX(-100%);
 }
 
 /* Main Content */
@@ -168,20 +166,4 @@ body, html {
     align-self: flex-start;
     background-color: #e8f5e9;
     color: #388e3c;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    #menu-toggle {
-        display: block;
-    }
-    #sidebar {
-        position: absolute;
-        height: 100%;
-        z-index: 999;
-        transform: translateX(-100%);
-    }
-    #sidebar.visible {
-        transform: translateX(0);
-    }
 }
